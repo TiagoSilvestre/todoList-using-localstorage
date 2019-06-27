@@ -53,20 +53,19 @@
 <script>
     /************ INICIALIZA *************/
     printList();
-    alert('Aohh Tiago, fazer o editar e deletar pra nooxx!')
 
 
 
     /************ FUNÇÕES AUXILIARES *************/
     // Fazer o parse significa transformar de string para objeto js
     // isso vai ser um getList
-    function auxParseTiagoTodoList() {
+    function getList() {
         return JSON.parse(localStorage.getItem('tiagoTodoList'));
     }
 
     // Stringify transforma um objeto js em string para poder enviar pela rede, e.x.
     // esse vai ser um set list
-    function auxStringifyTiagoTodoList(list) {
+    function setList(list) {
         localStorage.setItem('tiagoTodoList', JSON.stringify(list));
     }
 
@@ -77,7 +76,7 @@
         // verifica a existencia da lista
         if (localStorage.getItem('tiagoTodoList')){
                         
-            var atualList = auxParseTiagoTodoList();
+            var atualList = getList();
             // printa a lista na tela
             atualList.forEach((item) => {
                 document.getElementById('lista').innerHTML +=  `
@@ -118,11 +117,11 @@
         let order = document.getElementById("itemOrder").value;
 
 
-        let list = auxParseTiagoTodoList();
+        let list = getList();
         
         list.push({ 'name': name, 'order': order });
         console.log(list)
-        auxStringifyTiagoTodoList(list);
+        setList(list);
         // localStorage.setItem('tiagoTodoList', JSON.stringify(list));        
     }
 
