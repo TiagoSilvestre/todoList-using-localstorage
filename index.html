@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <style>
+            #lista {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            }
+
+            #lista td, #lista th {
+            border: 1px solid #ddd;
+            padding: 8px;
+            }
+
+            #lista tr:nth-child(even){background-color: #f2f2f2;}
+
+            #lista tr:hover {background-color: #ddd;}
+
+            #lista th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <h1>Bem vindo ao cadastra Tiago</h1>
+
+        <label for="item">Nome</label>
+        <input id="itemName" type="text" name="item">
+        <label for="item">Ordem</label>
+        <input id="itemOrder" type="text" name="order">
+        <button onclick="addInList()">Salvar</button>
+
+
+        
+        <table id="lista">
+            <tr>
+                <th>Atividade</th>
+                <th>Importância</th>
+                <th>Editar</th>
+                <th>Excluir</th>
+            </tr>
+        </table> 
+
+
+<script>
+    /************ INICIALIZA *************/
+    printList();
+    alert('Aohh Tiago, fazer o editar e deletar pra nooxx!')
+
+
+
+    /************ FUNÇÕES AUXILIARES *************/
+    // Fazer o parse significa transformar de string para objeto js
+    // isso vai ser um getList
+    function auxParseTiagoTodoList() {
+        return JSON.parse(localStorage.getItem('tiagoTodoList'));
+    }
+
+    // Stringify transforma um objeto js em string para poder enviar pela rede, e.x.
+    // esse vai ser um set list
+    function auxStringifyTiagoTodoList(list) {
+        localStorage.setItem('tiagoTodoList', JSON.stringify(list));
+    }
+
+
+
+    /************ CARREGAR LISTA *************/
+    function printList() {
+        // verifica a existencia da lista
+        if (localStorage.getItem('tiagoTodoList')){
+                        
+            var atualList = auxParseTiagoTodoList();
+            // printa a lista na tela
+            atualList.forEach((item) => {
+                document.getElementById('lista').innerHTML +=  `
+                    <tr>
+                        <td>` + item.name + `</td>
+                        <td>Ordem: `+ item.order + `</td>
+                        <td onclick="edit(${item.order})">Editar</td>
+                        <td onclick="delete(${item.order})">Excluir</td>
+                    </tr>                 
+                `;
+            });
+   
+        } else {
+            // cria lista nova
+            console.log('criando nova lista');
+            let lista = [];
+            localStorage.setItem('tiagoTodoList', JSON.stringify(lista));
+        }
+    }
+
+    /************ EDITA LISTA *************/
+    function edit(order) {
+        console.log('editando')
+        console.log(order)
+
+    }
+
+    function addInList2() {
+        alert('salvando na lista DOOOIIXX')
+    }
+
+    /************ SALVA LISTA *************/
+    function addInList() {
+        alert('salvando na lista')
+        console.log('Valor Input: ' + document.getElementById("itemName").value);
+
+        let name = document.getElementById("itemName").value;
+        let order = document.getElementById("itemOrder").value;
+
+
+        let list = auxParseTiagoTodoList();
+        
+        list.push({ 'name': name, 'order': order });
+        console.log(list)
+        auxStringifyTiagoTodoList(list);
+        // localStorage.setItem('tiagoTodoList', JSON.stringify(list));        
+    }
+
+
+</script>
+
+
+    </body>
+</html>
