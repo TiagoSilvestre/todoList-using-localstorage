@@ -37,17 +37,10 @@
         <label for="item">Ordem</label>
         <input id="itemOrder" type="text" name="order">
         <button onclick="addInList()">Salvar</button>
-
+        <br><br>
 
         
-        <table id="lista">
-            <tr>
-                <th>Atividade</th>
-                <th>Importância</th>
-                <th>Editar</th>
-                <th>Excluir</th>
-            </tr>
-        </table> 
+        <table id="lista"></table> 
 
 
 <script>
@@ -73,22 +66,22 @@
 
     /************ CARREGAR LISTA *************/
     function printList() {
+        // limpa a lista, deixando somente cabeçalho
+        document.getElementById('lista').innerHTML = '<tr><th>Atividade</th><th>Importancia</th><th>Editar</th><th>Excluir</th></tr>';
         // verifica a existencia da lista
         if (localStorage.getItem('tiagoTodoList')){
-                        
             var atualList = getList();
             // printa a lista na tela
-            atualList.forEach((item) => {
+            atualList.forEach((item, index) => {
                 document.getElementById('lista').innerHTML +=  `
                     <tr>
                         <td>` + item.name + `</td>
                         <td>Ordem: `+ item.order + `</td>
-                        <td onclick="edit(${item.order})">Editar</td>
-                        <td onclick="delete(${item.order})">Excluir</td>
+                        <td onclick="edit(${index})">Editar</td>
+                        <td onclick="excluir(${index})">Excluir</td>
                     </tr>                 
                 `;
             });
-   
         } else {
             // cria lista nova
             console.log('criando nova lista');
@@ -98,31 +91,33 @@
     }
 
     /************ EDITA LISTA *************/
-    function edit(order) {
-        console.log('editando')
-        console.log(order)
-
+    function excluir(index) {
+        setList(removeArray(getList(), index));
+        printList();
     }
 
-    function addInList2() {
-        alert('salvando na lista DOOOIIXX')
+    function removeArray(array, index) {
+        return array.slice(0, index).concat(array.slice(index + 1));
+    }
+
+    function edit(index) {
+        let newValue = prompt('Digite o novo valor');
+        let list = getList()
+        list[index].order = newValue;
+        setList(list);
+        printList();        
     }
 
     /************ SALVA LISTA *************/
     function addInList() {
-        alert('salvando na lista')
-        console.log('Valor Input: ' + document.getElementById("itemName").value);
-
         let name = document.getElementById("itemName").value;
         let order = document.getElementById("itemOrder").value;
 
-
-        let list = getList();
-        
+        let list = getList();        
         list.push({ 'name': name, 'order': order });
-        console.log(list)
+        
         setList(list);
-        // localStorage.setItem('tiagoTodoList', JSON.stringify(list));        
+        printList();
     }
 
 
